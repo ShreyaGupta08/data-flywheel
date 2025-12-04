@@ -8,6 +8,17 @@ A data flywheel creates a self-reinforcing loop where user interactions continuo
 
 Key steps in a data flywheel include logging user interactions, processing the data, customizing and evaluating candidate models, adding guardrails, and integrating them with external knowledge bases for question answering.
 
+## Use Case: AI Virtual Assistant for Customer Service
+
+These tutorials use sample data from an [AI Virtual Customer Service Assistant](https://build.nvidia.com/nvidia/ai-virtual-assistant-for-customer-service) that employs tool calling to route user queries to specialized assistants:
+
+- **Product Q&A** - Answer questions about product specifications and features
+- **Order Status** - Check delivery and shipping status
+- **Returns Processing** - Handle return and refund requests
+- **Small Talk** - Manage casual conversation and off-topic queries
+
+The goal is to fine-tune smaller, more cost-efficient models (e.g., `meta/llama-3.2-1B-instruct`) to match the accuracy of larger deployed models (e.g., `meta/llama-3.3-70B-instruct`) on these tool-calling tasks.
+
 ## How it Works
 
 The Data Flywheel Blueprint provides a unified API (the Orchestrator) that abstracts away the complexity of directly managing [NVIDIA NeMo Microservices](https://docs.nvidia.com/nemo/microservices/latest/about/index.html). As a user, you interact only with the Data Flywheel Orchestrator API to:
@@ -32,7 +43,30 @@ All direct communication with the NeMo Microservices platform (model deployment,
 
 Check out the following example notebooks to learn how to optimize LLMs using a data flywheel.
 
-- [Discover More Cost-Efficient AI Customer Service Agents](./data-flywheel-bp-tutorial.ipynb): Use logs and tool-calling data to fine-tune and evaluate a more cost efficient model.
+### Core Tutorials
+
+- **[Discover More Cost-Efficient AI Customer Service Agents](./data-flywheel-bp-tutorial.ipynb)**: The quickstart tutorial that demonstrates the end-to-end Data Flywheel workflow using the Orchestrator API. Load sample data, create a flywheel job, and monitor the customization and evaluation process.
+
+- **[Feedback Loop Tutorial](./data-flywheel-bp-feedback-loop-tutorial.ipynb)**: A detailed, step-by-step tutorial that walks through the complete feedback loop process for continuous model improvement:
+  
+  | Step | Description |
+  |------|-------------|
+  | **0. Setup** | Configure the Data Flywheel Blueprint and NeMo Microservices |
+  | **1. Load Sample Data** | Load tool-calling logs from the AI Virtual Assistant |
+  | **2. Run Base Model Inference** | Generate outputs using a smaller base model (e.g., Llama-3.2-1B) |
+  | **3. Data Quality Filtering** | Apply quality checks including output normalization and LLM-as-Judge evaluation to extract high-quality training samples |
+  | **4. Load into Elasticsearch** | Store filtered data for the Flywheel service |
+  | **5. Run Flywheel Job** | Execute model customization with the curated data |
+
+  This notebook is ideal for understanding how to build a data quality pipeline that filters and validates model outputs before using them for fine-tuning.
+
+### Which Notebook Should I Use?
+
+| If you want to... | Use this notebook |
+|-------------------|-------------------|
+| Get started quickly with the end-to-end workflow | [data-flywheel-bp-tutorial.ipynb](./data-flywheel-bp-tutorial.ipynb) |
+| Understand data quality filtering and the feedback loop in detail | [data-flywheel-bp-feedback-loop-tutorial.ipynb](./data-flywheel-bp-feedback-loop-tutorial.ipynb) |
+| Learn how to run inference and evaluate outputs before training | [data-flywheel-bp-feedback-loop-tutorial.ipynb](./data-flywheel-bp-feedback-loop-tutorial.ipynb) |
 
 ## Prerequisites
 
